@@ -1,0 +1,79 @@
+import java.util.*;
+
+class FinancialData {
+    private List<Double> pastRevenue;
+
+    public FinancialData(List<Double> pastRevenue) {
+        this.pastRevenue = pastRevenue;
+    }
+
+    public List<Double> getPastRevenue() {
+        return pastRevenue;
+    }
+
+    public double getLatestRevenue() {
+        return pastRevenue.get(pastRevenue.size() - 1);
+    }
+}
+
+interface ForecastStrategy {
+    List<Double> forecast(FinancialData data, int months);
+}
+class GrowthRateForecast implements ForecastStrategy {
+    private double growthRate; // e.g. 5% => 0.05
+
+    public GrowthRateForecast(double growthRate) {
+        this.growthRate = growthRate;
+    }
+
+    public List<Double> forecast(FinancialData data, int months) {
+        List<Double> future = new ArrayList<>();
+        double current = data.getLatestRevenue();
+        for (int i = 0; i < months; i++) {
+            current += current * growthRate;
+            future.add(current);
+        }
+        return future;
+    }
+}
+
+class ForecastEngine {
+    private ForecastStrategy strategy;
+
+    public ForecastEngine(ForecastStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public List<Double> runForecast(FinancialData data, int months) {
+        return strategy.forecast(data, months);
+    }
+}
+
+public class FinancialForecastApp {
+    public static void main(String[] args) {
+        // Past 6 months revenue (in thousands)
+        List<Double> revenueData = Arrays.asList(100.0, 110.0, 120.0, 130.0, 140.0, 150.0);
+        FinancialData financialData = new FinancialData(revenueData);
+
+        // Forecast with 10% growth rate
+        ForecastStrategy strategy = new GrowthRateForecast(0.10);
+        ForecastEngine engine = new ForecastEngine(strategy);
+
+        List<Double> futureRevenue = engine.runForecast(financialData, 6);
+
+        System.out.println("Future Revenue Forecast:");
+        for (int i = 0; i < futureRevenue.size(); i++) {
+            System.out.printf("Month %d: %.2fK\n", i + 1, futureRevenue.get(i));
+        }
+    }
+}
+
+output:
+
+Future Revenue Forecast:
+Month 1: 165.00K
+Month 2: 181.50K
+Month 3: 199.65K
+Month 4: 219.62K
+Month 5: 241.58K
+Month 6: 265.73K
