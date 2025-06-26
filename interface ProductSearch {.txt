@@ -1,0 +1,52 @@
+interface ProductSearch {
+    void search(String keyword);
+}
+class BookSearch implements ProductSearch {
+    public void search(String keyword) {
+        System.out.println("Searching for books with keyword: " + keyword);
+    }
+}
+class ElectronicsSearch implements ProductSearch {
+    public void search(String keyword) {
+        System.out.println("Searching for electronics with keyword: " + keyword);
+    }
+}
+
+class ClothingSearch implements ProductSearch {
+    public void search(String keyword) {
+        System.out.println("Searching for clothing items with keyword: " + keyword);
+    }
+}
+class SearchFactory {
+    public ProductSearch getSearch(String category) {
+        if (category == null)
+            return null;
+        if (category.equalsIgnoreCase("BOOK"))
+            return new BookSearch();
+        else if (category.equalsIgnoreCase("ELECTRONICS"))
+            return new ElectronicsSearch();
+        else if (category.equalsIgnoreCase("CLOTHING"))
+            return new ClothingSearch();
+        return null;
+    }
+}
+public class SearchApp {
+    public static void main(String[] args) {
+        SearchFactory factory = new SearchFactory();
+
+        ProductSearch bookSearch = factory.getSearch("BOOK");
+        bookSearch.search("Java Programming");
+
+        ProductSearch electronicsSearch = factory.getSearch("ELECTRONICS");
+        electronicsSearch.search("Smartphone");
+
+        ProductSearch clothingSearch = factory.getSearch("CLOTHING");
+        clothingSearch.search("T-shirts");
+    }
+}
+
+output:
+
+Searching for books with keyword: Java Programming
+Searching for electronics with keyword: Smartphone
+Searching for clothing items with keyword: T-shirts
