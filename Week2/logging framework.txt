@@ -1,0 +1,30 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MyService {
+    private static final Logger logger = LoggerFactory.getLogger(MyService.class);
+     public void doSomething(String userInput) {
+        logger.info("Method started with input: {}", userInput);
+
+        if (userInput == null || userInput.isBlank()) {
+            logger.warn("Input was blank or null"); //
+            return;
+        }
+
+        try {
+            int result = 10 / userInput.length();
+            logger.info("Result: {}", result);
+        } catch (Exception e) {
+            logger.error("Error occurred while processing input", e); // 
+        }
+    }
+}   
+
+Output:
+
+INFO  MyService - Method started with input: null
+WARN  MyService - Input was blank or null
+INFO  MyService - Method started with input: test
+ERROR MyService - Error occurred while processing input
+java.lang.ArithmeticException: / by zero
+    at ...

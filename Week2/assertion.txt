@@ -1,0 +1,52 @@
+public interface UserRepository {
+    String findNameById(int id);
+}
+public class UserService {
+    private UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public String getUserNameById(int id) {
+        String name = userRepository.findNameById(id);
+        if (name == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return name;
+    }
+}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+class UserServiceTest {
+    UserRepository userRepository;
+    UserService userService;
+    void testUserNameIsReturnedCorrectly() {
+        when(userRepository.findNameById(1)).thenReturn("Alice");
+        String result = userService.getUserNameById(1);
+        assertEquals("Alice", result);  // ✅ assertEquals
+        assertNotNull(result);          // ✅ assertNotNull
+        assertTrue(result.startsWith("A")); // ✅ assertTrue
+        verify(userRepository).findNameById(1); // ✅ Mockito verification
+    }
+    void testUserNotFoundThrowsException() {
+        when(userRepository.findNameById(2)).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.getUserNameById(2);
+        });
+        assertEquals("User not found", exception.getMessage()); // ✅ assertEquals for exception message
+    }
+}
+
+output:
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0
+[INFO] BUILD SUCCESS

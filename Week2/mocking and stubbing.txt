@@ -1,0 +1,45 @@
+public interface UserRepository {
+    String findNameById(int id);
+}
+public class UserService {
+    private final UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public String getUserName(int id) {
+        String name = userRepository.findNameById(id);
+        if (name == null) throw new IllegalArgumentException("User not found");
+        return name;
+    }
+}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class UserServiceTest {
+    UserRepository userRepository; 
+    UserService userService;      
+    void testGetUserName_returnsValidName() {
+        when(userRepository.findNameById(1)).thenReturn("Alice");
+        String result = userService.getUserName(1)
+        assertEquals("Alice", result);
+        verify(userRepository).findNameById(1); // ✅ Verify interaction
+    }
+    void testGetUserName_throwsExceptionForInvalidId() {
+        when(userRepository.findNameById(999)).thenReturn(null);
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+            userService.getUserName(999);
+        });
+
+        assertEquals("User not found", ex.getMessage());
+        verify(userRepository).findNameById(999); // ✅ Verify stubbed call
+    }
+}
+
+output:
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0
+[INFO] BUILD SUCCESS

@@ -1,0 +1,74 @@
+DECLARE
+    salary NUMBER := 7500;
+    grade CHAR(1);
+    i NUMBER := 1;
+BEGIN
+      1. IF-THEN-ELSE
+    IF salary >= 10000 THEN
+        DBMS_OUTPUT.PUT_LINE('Salary: High');
+    ELSIF salary >= 5000 THEN
+        DBMS_OUTPUT.PUT_LINE('Salary: Medium');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salary: Low');
+    END IF;
+
+      2. Assign grade based on salary
+    IF salary >= 10000 THEN
+        grade := 'A';
+    ELSIF salary >= 5000 THEN
+        grade := 'B';
+    ELSE
+        grade := 'C';
+    END IF;
+
+       3. CASE statement
+    CASE grade
+        WHEN 'A' THEN DBMS_OUTPUT.PUT_LINE('Grade A: Excellent');
+        WHEN 'B' THEN DBMS_OUTPUT.PUT_LINE('Grade B: Good');
+        WHEN 'C' THEN DBMS_OUTPUT.PUT_LINE('Grade C: Average');
+        ELSE DBMS_OUTPUT.PUT_LINE('Invalid grade');
+    END CASE;
+
+       4. Basic LOOP with EXIT
+    DBMS_OUTPUT.PUT_LINE('Basic LOOP:');
+    i := 1;
+    LOOP
+        EXIT WHEN i > 3;
+        DBMS_OUTPUT.PUT_LINE('  Loop i = ' || i);
+        i := i + 1;
+    END LOOP;
+
+       5. WHILE loop
+    DBMS_OUTPUT.PUT_LINE('WHILE Loop:');
+    i := 1;
+    WHILE i <= 3 LOOP
+        DBMS_OUTPUT.PUT_LINE('  While i = ' || i);
+        i := i + 1;
+    END LOOP;
+
+       6. FOR loop with CONTINUE
+    DBMS_OUTPUT.PUT_LINE('FOR Loop with CONTINUE:');
+    FOR i IN 1..5 LOOP
+        IF i = 3 THEN
+            CONTINUE; -- Skip 3
+        END IF;
+        DBMS_OUTPUT.PUT_LINE('  For i = ' || i);
+    END LOOP;
+END;
+
+output:
+Salary: Medium
+Grade B: Good
+Basic LOOP:
+  Loop i = 1
+  Loop i = 2
+  Loop i = 3
+WHILE Loop:
+  While i = 1
+  While i = 2
+  While i = 3
+FOR Loop with CONTINUE:
+  For i = 1
+  For i = 2
+  For i = 4
+  For i = 5

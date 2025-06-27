@@ -1,0 +1,59 @@
+void testGetUserNameById() {
+    when(userRepository.findNameById(1)).thenReturn("Alice");
+    String result = userService.getUserNameById(1);
+    assertEquals("Alice", result);
+    verify(userRepository).findNameById(1);
+}
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class UserServiceTest {
+    UserRepository userRepository;
+    UserService userService;
+    void setUp() {
+        System.out.println("Setting up test fixture");
+    }
+    void tearDown() {
+        System.out.println("Tearing down test fixture");
+    }
+    void testUserNameReturned() 
+        when(userRepository.findNameById(1)).thenReturn("Alice");
+        String name = userService.getUserNameById(1);
+        assertEquals("Alice", name);
+    }
+    void testUserNotFound() {
+        when(userRepository.findNameById(99)).thenReturn(null);
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+            userService.getUserNameById(99);
+        });
+        assertEquals("User not found", ex.getMessage());
+    }
+}
+static void globalSetup() {
+    System.out.println("Run once before all tests");
+}
+static void globalTeardown() {
+    System.out.println("Run once after all tests");
+}
+ 
+output:
+
+Setting up test fixture
+Tearing down test fixture
+Setting up test fixture
+Tearing down test fixture
+
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running UserServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in UserServiceTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] BUILD SUCCESS

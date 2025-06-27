@@ -1,0 +1,43 @@
+public interface EmailSender {
+    void send(String to, String message);
+}
+public class NotificationService {
+    private final EmailSender emailSender;
+    public NotificationService(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
+    public void notifyUser(String email) {
+        if (email != null && !email.isEmpty()) {
+            emailSender.send(email, "Welcome!");
+        }
+    }
+}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+class NotificationServiceTest {
+    EmailSender emailSender;
+    NotificationService notificationService;
+    void testSendEmailCalledOnce() {
+        notificationService.notifyUser("alice@example.com");
+        verify(emailSender).send("alice@example.com", "Welcome!");
+        verify(emailSender, times(1)).send(anyString(), anyString());
+    }
+    void testSendEmailNotCalledWhenEmailNull() {
+        notificationService.notifyUser(null);
+        verify(emailSender, never()).send(anyString(), anyString());
+    }
+    void testSendEmailNotCalledWhenEmailEmpty() {
+        notificationService.notifyUser("");
+        verifyNoInteractions(emailSender);
+    }
+}
+
+output:
+
+[INFO] Tests run: 3, Failures: 0, Errors: 0
+[INFO] BUILD SUCCESS
