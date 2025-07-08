@@ -1,0 +1,32 @@
+public class User {
+    private Long id;
+    private String name;
+    private String email;
+
+    public User() {}
+    public User(String name, String email) {
+        this.name = name; this.email = email;
+    }
+}
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);  // 
+}
+public class DemoApplication implements CommandLineRunner {
+    private UserRepository repo;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    public void run(String... args) {
+        repo.save(new User("John", "john@example.com"));
+        User user = repo.findByEmail("john@example.com");
+        System.out.println("Found: " + user.getName());
+    }
+}
+
+Output:
+
+Hibernate: insert into user ...
+Hibernate: select ... from user ...
+Found: John

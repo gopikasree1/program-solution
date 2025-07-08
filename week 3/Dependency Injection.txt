@@ -1,0 +1,61 @@
+package com.example;
+
+public interface Vehicle {
+    void move();
+}
+package com.example;
+
+public class Car implements Vehicle {
+    public void move() {
+        System.out.println("Car is moving...");
+    }
+}
+package com.example;
+
+public class Traveller {
+    private Vehicle vehicle;
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void startJourney() {
+        vehicle.move();
+    }
+}
+
+package com.example;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+public class AppConfig {
+
+    public Vehicle car() {
+        return new Car();
+    }
+
+    public Traveller traveller() {
+        Traveller t = new Traveller();
+        t.setVehicle(car());
+        return t;
+    }
+}
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        Traveller traveller = context.getBean(Traveller.class);
+        traveller.startJourney();  
+    }
+}
+
+
+Output:
+
+Car is moving...

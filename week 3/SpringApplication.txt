@@ -1,0 +1,36 @@
+package com.example;
+
+public class HelloService {
+    public void sayHello() {
+        System.out.println("Hello from Spring!");
+    }
+}
+
+package com.example;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+public class AppConfig {
+
+    public HelloService helloService() {
+        return new HelloService();
+    }
+}
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+        ApplicationContext context = 
+            new AnnotationConfigApplicationContext(AppConfig.class);
+        HelloService helloService = context.getBean(HelloService.class);
+        helloService.sayHello();
+    }
+}
+
+ouput:
+
+Hello from Spring!
+

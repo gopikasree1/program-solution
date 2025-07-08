@@ -1,0 +1,56 @@
+package com.example;
+
+public class HelloService {
+    public void sayHello() {
+        System.out.println("Hello from Spring Core + Maven!");
+    }
+}
+
+package com.example;
+
+public class GreetingApp {
+    private HelloService helloService;
+
+    public void setHelloService(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
+    public void greet() {
+        helloService.sayHello();
+    }
+}
+package com.example;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+public class AppConfig {
+
+    public HelloService helloService() {
+        return new HelloService();
+    }
+
+    public GreetingApp greetingApp() {
+        GreetingApp app = new GreetingApp();
+        app.setHelloService(helloService());
+        return app;
+    }
+}
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        GreetingApp app = context.getBean(GreetingApp.class);
+        app.greet();
+    }
+}
+
+Output:
+
+Hello from Spring Core + Maven!
+
+
