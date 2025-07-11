@@ -1,0 +1,79 @@
+package com.example.demo;
+
+import jakarta.persistence.*;
+
+public class Country {
+    private Long id;
+
+    private String name;
+    private String code;
+
+    public Long getId() { return id; }package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CountryRepository extends JpaRepository<Country, Long> {
+}
+
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+}
+package com.example.demo;
+
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+public class CountryService {
+
+    private final CountryRepository repo;
+    public CountryService(CountryRepository repo) {
+        this.repo = repo;
+    }
+    public Country addCountry(Country country) {
+        return repo.save(country);
+    }
+    public List<Country> getAll() {
+        return repo.findAll();
+    }
+}
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+public class CountryController {
+
+    private final CountryService service;
+    public CountryController(CountryService service) {
+        this.service = service;
+    }
+    public Country add(Country country) {
+        return service.addCountry(country);
+    }
+    public List<Country> getAll() {
+        return service.getAll();
+    }
+}
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+OUTPUT:
+
+    "id": 1,
+    "name": "India",
+    "code": "IN"
+

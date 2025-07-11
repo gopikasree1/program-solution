@@ -1,0 +1,85 @@
+package com.example.demo;
+
+import jakarta.persistence.*;
+
+public class Employee {
+
+    private Long id;
+    private String name;
+    private String department;
+    private Double salary;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public Double getSalary() { return salary; }
+    public void setSalary(Double salary) { this.salary = salary; }
+}
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    List<Employee> findByDepartment(String department);
+    List<Employee> findBySalaryGreaterThan(Double salary);
+    List<Employee> findByNameContaining(String keyword);
+    List<Employee> findByDepartmentAndSalaryGreaterThan(String department, Double salary);
+}
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+public class EmployeeController {
+
+    private final EmployeeRepository repo;
+    public EmployeeController(EmployeeRepository repo) {
+        this.repo = repo;
+    }
+
+    public Employee add(Employee employee) {
+        return repo.save(employee);
+    }
+    public List<Employee> getByDepartment(String dept) {
+        return repo.findByDepartment(dept);
+    }
+
+ 
+    public List<Employee> getBySalaryGreaterThan(Double amount) {
+        return repo.findBySalaryGreaterThan(amount);
+    }
+
+    public List<Employee> getByNameContaining(String text) {
+        return repo.findByNameContaining(text);
+    }
+
+    public List<Employee> getByDeptAndSalary(String dept,Double salary) {
+        return repo.findByDepartmentAndSalaryGreaterThan(dept, salary);
+    }
+}
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+OUTPUT:
+
+    "id": 1,
+    "name": "Alice",
+    "department": "IT",
+    "salary": 60000.0
+  

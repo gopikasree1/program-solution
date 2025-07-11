@@ -1,0 +1,59 @@
+package com.example;
+
+public class Address {
+    private String city;
+    private String country;
+
+    public Address(String city, String country) {
+        this.city = city;
+        this.country = country;
+    }
+
+    public String getFullAddress() {
+        return city + ", " + country;
+    }
+}
+package com.example;
+
+public class Person {
+    private String name;
+    private int age;
+    private Address address;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Address: " + address.getFullAddress());
+    }
+}
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
+        Person person = (Person) context.getBean("person");
+        person.displayInfo();
+    }
+}
+
+OUTPUT:
+
+Name: Alice Smith
+Age: 30
+Address: New York, USA

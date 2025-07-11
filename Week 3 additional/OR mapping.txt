@@ -1,0 +1,104 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.util.List;
+
+public class Department {
+
+    private Long id;
+    private String name;
+    private List<Employee> employees;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public List<Employee> getEmployees() { return employees; }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+        if (employees != null) {
+            for (Employee e : employees) {
+                e.setDepartment(this);
+            }
+        }
+    }
+}
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
+public class Employee {
+
+    private Long id;
+    private String name;
+    private double salary;
+    private Department department;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getSalary() { return salary; }
+    public void setSalary(double salary) { this.salary = salary; }
+    public Department getDepartment() { return department; }
+    public void setDepartment(Department department) { this.department = department; }
+}
+package com.example.demo.repository;
+
+import com.example.demo.model.Department;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DepartmentRepository extends JpaRepository<Department, Long> {
+}
+package com.example.demo.repository;
+
+import com.example.demo.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+package com.example.demo.controller;
+
+import com.example.demo.model.Department;
+import com.example.demo.model.Employee;
+import com.example.demo.repository.DepartmentRepository;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class DemoController {
+
+    private final DepartmentRepository departmentRepo;
+
+    public DemoController(DepartmentRepository departmentRepo) {
+        this.departmentRepo = departmentRepo;
+    }
+
+    public Department createDepartmentWithEmployees(@RequestBody Department department) {
+        return departmentRepo.save(department);
+
+    public List<Department> getAllDepartments() {
+        return departmentRepo.findAll();
+    }
+}
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+OUTPUT:
+
+  "id": 1,
+  "name": "IT",
+  "employees": [
+    { "id": 1, "name": "Alice", "salary": 60000.0 },
+    { "id": 2, "name": "Bob", "salary": 50000.0 }
+]

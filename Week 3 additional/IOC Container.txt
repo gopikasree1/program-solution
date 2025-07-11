@@ -1,0 +1,50 @@
+package com.example;
+
+public class Course {
+    private String courseName;
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void displayCourse() {
+        System.out.println("Course: " + courseName);
+    }
+}
+package com.example;
+
+public class Student {
+    private String name;
+    private Course course;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public void displayInfo() {
+        System.out.println("Student Name: " + name);
+        course.displayCourse();
+    }
+}
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
+        Student student = (Student) context.getBean("studentBean");
+        student.displayInfo();
+    }
+}
+
+OUTPUT:
+
+Student Name: Gopika Sree
+Course: Spring Framework
