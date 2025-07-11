@@ -1,0 +1,114 @@
+package com.example.jwtsecurity.model;
+
+public class AuthRequest {
+    private String username;
+    private String password;
+}
+package com.example.jwtsecurity.model;
+
+public class AuthResponse {
+    private String token;
+
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+}
+package com.example.jwtsecurity.util;
+
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+import java.util.*;
+
+public class UserDetailsServiceImpl implements UserDetailsService {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if ("gopika".equals(username)) {
+            return User.builder()
+                    .username("gopika")
+                    .password("{noop}1234") 
+                    .roles("USER")
+                    .build();
+        }
+        throw new UsernameNotFoundException("User not found");
+    }
+}
+package com.example.jwtsecurity.service;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import java.security.Key;
+import java.util.Date;
+
+public class JwtService {
+    private final Key key = Keys.hmacShaKeyFor("mysecretkeymysecretkeymysecretkey123!".getBytes());
+    public String generateToken(UserDetails userDetails) {
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuer("example.com")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .signWith(key)
+                .compact();
+    }
+}
+package com.example.jwtsecurity.config;
+
+import com.example.jwtsecurity.util.UserDetailsServiceImpl;
+import org.springframework.context.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+public class SecurityConfig {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+                   .authorizeHttpRequests(auth -> auth
+                       .requestMatchers("/auth/**").permitAll()
+                       .anyRequest().authenticated()
+                   )
+                   .build();
+    }
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+}
+package com.example.jwtsecurity.controller;
+
+import com.example.jwtsecurity.model.AuthRequest;
+import com.example.jwtsecurity.model.AuthResponse;
+import com.example.jwtsecurity.service.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
+
+public class AuthController {
+    private AuthenticationManager authManager;
+    private UserDetailsService userDetailsService;
+    private JwtService jwtService;
+
+    public AuthResponse login(AuthRequest request) {
+        authManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
+        String token = jwtService.generateToken(user);
+        return new AuthResponse(token);
+    }
+}
+
+OUTPUT:
+
+  "username": "gopika",
+  "password": "1234"
+
+  "token": "eyJhbGciOiJIUzI1NiJ9..."

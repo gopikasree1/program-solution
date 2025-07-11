@@ -1,0 +1,83 @@
+package com.example.countryrest.model;
+
+import jakarta.persistence.*;
+
+public class Country {
+    private Long id;
+    private String name;
+    private String code;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+}
+package com.example.countryrest.repository;
+
+import com.example.countryrest.model.Country;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CountryRepository extends JpaRepository<Country, Long> {
+}
+package com.example.countryrest.controller;
+
+import com.example.countryrest.model.Country;
+import com.example.countryrest.repository.CountryRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+public class CountryController {
+    private final CountryRepository repository;
+
+    public CountryController(CountryRepository repository) {
+        this.repository = repository;
+    }
+    public List<Country> getAllCountries() {
+        return repository.findAll();
+    }
+    public ResponseEntity<Country> getCountryById(Long id) {
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+    public Country addCountry(Country country) {
+        return repository.save(country);
+    }
+    public ResponseEntity<Country> updateCountry(Long id, @RequestBody Country updated) {
+        return repository.findById(id)
+                .map(country -> {
+                    country.setName(updated.getName());
+                    country.setCode(updated.getCode());
+                    return ResponseEntity.ok(repository.save(country));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+    public ResponseEntity<Void> deleteCountry(Long id) {
+        return repository.findById(id)
+                .map(country -> {
+                    repository.delete(country);
+                    return ResponseEntity.ok().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+}
+package com.example.countryrest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class CountryRestApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CountryRestApplication.class, args);
+    }
+}
+
+OUTPUT:
+
+    "id": 1,
+    "name": "India",
+    "code": "IN"

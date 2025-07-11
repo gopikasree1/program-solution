@@ -1,0 +1,42 @@
+package com.example.countryrest.model;
+
+import jakarta.persistence.*;
+
+public class Country {
+    private Long id;
+    private String name;
+    private String code;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+}
+package com.example.countryrest.repository;
+
+import com.example.countryrest.model.Country;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface CountryRepository extends JpaRepository<Country, Long> {
+    Optional<Country> findByCode(String code);
+}
+public ResponseEntity<Country> getByCode(String code) {
+    return repository.findByCode(code.toUpperCase())
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+}
+
+OUTPUT:
+
+  "id": 1,
+  "name": "India",
+  "code": "IN"
+
+  "id": 2,
+  "name": "United States",
+  "code": "US"

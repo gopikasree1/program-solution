@@ -1,0 +1,36 @@
+public class Country {
+    private String name;
+    private String code;
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    public String toString() {
+        return "Country{name='" + name + "', code='" + code + "'}";
+    }
+}
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Country country = (Country) context.getBean("country");
+        System.out.println(country);
+    }
+}
+
+OUTPUT:
+
+Country{name='India', code='IN'}
