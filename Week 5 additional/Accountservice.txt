@@ -1,0 +1,21 @@
+package com.example.accountservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.web.bind.annotation.*;
+
+public class AccountServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AccountServiceApplication.class, args);
+    }
+
+    public String getAccount(@PathVariable String id) {
+        return "Account ID: " + id + " | Holder: John Doe | Balance: $5000";
+    }
+}
+
+OUTPUT:
+
+Account ID: 101 | Holder: John Doe | Balance: $5000
