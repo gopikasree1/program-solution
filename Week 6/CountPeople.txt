@@ -1,0 +1,72 @@
+import React, { Component } from 'react';
+
+class CountPeople extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      entryCount: 0,
+      exitCount: 0
+    };
+  }
+
+  UpdateEntry = () => {
+    this.setState((prevState) => ({
+      entryCount: prevState.entryCount + 1
+    }));
+  };
+
+  UpdateExit = () => {
+    this.setState((prevState) => ({
+      exitCount: prevState.exitCount + 1
+    }));
+  };
+
+  render() {
+    return (
+      <div style={styles.container}>
+        <h1>Mall Entry Tracker</h1>
+        <p><strong>People Entered:</strong> {this.state.entryCount}</p>
+        <p><strong>People Exited:</strong> {this.state.exitCount}</p>
+        <button style={styles.button} onClick={this.UpdateEntry}>Login</button>
+        <button style={styles.button} onClick={this.UpdateExit}>Exit</button>
+      </div>
+    );
+  }
+}
+
+const styles = {
+  container: {
+    textAlign: 'center',
+    padding: '40px',
+    fontFamily: 'Arial, sans-serif'
+  },
+  button: {
+    padding: '10px 20px',
+    margin: '10px',
+    fontSize: '16px',
+    cursor: 'pointer'
+  }
+};
+export default CountPeople;
+
+import React from 'react';
+import CountPeople from './CountPeople';
+
+function App() {
+  return (
+    <div className="App">
+      <CountPeople />
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+Mall Entry Tracker
+
+People Entered: 0
+People Exited: 0
+
+[Login]   [Exit]
+

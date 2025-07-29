@@ -1,0 +1,133 @@
+import React from 'react';
+import './TrainerList.css';
+
+const trainers = [
+  {
+    id: 'T101',
+    name: 'Arun Kumar',
+    phone: '9876543210',
+    email: 'arun.kumar@cognizant.com',
+    stream: 'Full Stack',
+    skills: ['React', 'Node.js', 'MongoDB']
+  },
+  {
+    id: 'T102',
+    name: 'Divya Sharma',
+    phone: '7890654321',
+    email: 'divya.sharma@cognizant.com',
+    stream: 'DevOps',
+    skills: ['Docker', 'Kubernetes', 'AWS']
+  },
+  {
+    id: 'T103',
+    name: 'Vikram S',
+    phone: '9012345678',
+    email: 'vikram.s@cognizant.com',
+    stream: 'Data Science',
+    skills: ['Python', 'Machine Learning', 'Pandas']
+  }
+];
+
+function TrainerList() {
+  return (
+    <div className="trainer-container">
+      <h2>Cognizant Academy - Trainer Directory</h2>
+      <table className="trainer-table">
+        <thead>
+          <tr>
+            <th>T-ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Stream</th>
+            <th>Skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainers.map((trainer) => (
+            <tr key={trainer.id}>
+              <td>{trainer.id}</td>
+              <td>{trainer.name}</td>
+              <td>{trainer.phone}</td>
+              <td>{trainer.email}</td>
+              <td>{trainer.stream}</td>
+              <td>{trainer.skills.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+export default TrainerList;
+
+.trainer-container {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.trainer-table {
+  margin: auto;
+  width: 90%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.trainer-table th, .trainer-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.trainer-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.trainer-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+import React from 'react';
+import TrainerList from './TrainerList';
+
+function App() {
+  return (
+    <div>
+      <TrainerList />
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+Cognizant Academy - Trainer Directory
+
+------------------------------------------
+T-ID: T101
+Name: Arun Kumar
+Phone: 9876543210
+Email: arun.kumar@cognizant.com
+Stream: Full Stack
+Skills: React, Node.js, MongoDB
+------------------------------------------
+
+T-ID: T102
+Name: Divya Sharma
+Phone: 7890654321
+Email: divya.sharma@cognizant.com
+Stream: DevOps
+Skills: Docker, Kubernetes, AWS
+------------------------------------------
+
+T-ID: T103
+Name: Vikram S
+Phone: 9012345678
+Email: vikram.s@cognizant.com
+Stream: Data Science
+Skills: Python, Machine Learning, Pandas
+------------------------------------------
+
+
+

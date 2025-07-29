@@ -1,0 +1,68 @@
+import React, { Component } from 'react';
+import Cart from './Cart';
+
+class OnlineShopping extends Component {
+  render() {
+    return (
+      <div style={styles.container}>
+        <h1>Welcome to Online Shopping</h1>
+        <p>Explore a wide variety of products at amazing prices!</p>
+        <Cart />
+      </div>
+    );
+  }
+}
+
+const styles = {
+  container: {
+    padding: '30px',
+    fontFamily: 'Arial, sans-serif',
+    textAlign: 'center'
+  }
+};
+export default OnlineShopping;
+
+import React, { Component } from 'react';
+
+class Cart extends Component {
+  render() {
+    return (
+      <div style={styles.card}>
+        <h2>Shopping Cart</h2>
+        <p>You have 0 items in your cart.</p>
+      </div>
+    );
+  }
+}
+
+const styles = {
+  card: {
+    backgroundColor: '#f9f9f9',
+    padding: '20px',
+    marginTop: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+  }
+};
+export default Cart;
+
+import React from 'react';
+import OnlineShopping from './OnlineShopping';
+
+function App() {
+  return (
+    <div className="App">
+      <OnlineShopping />
+    </div>
+  );
+}
+export default App;
+
+
+OUTPUT:
+
+Welcome to Online Shopping
+Explore a wide variety of products at amazing prices!
+
+Shopping Cart
+You have 0 items in your cart.

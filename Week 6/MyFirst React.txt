@@ -1,0 +1,30 @@
+
+import React from 'react';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Welcome to the first session of React</h1>
+    </div>
+  );
+}
+
+export default App;
+import javax.swing.*;
+
+public class MyFirstReactJava {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Java Window");
+        JLabel label = new JLabel("Welcome to the first session of React", SwingConstants.CENTER);
+
+        frame.add(label);
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
+ 
+
+OUTPUT:
+
+Welcome to the first session of React
