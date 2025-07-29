@@ -1,0 +1,46 @@
+public class EurekaServerApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(EurekaServerApplication.class, args);
+  }
+}
+public class Account {
+  private Long id;
+  private String accountHolder;
+  private Double balance;
+}
+public interface AccountRepository extends JpaRepository<Account, Long> {
+}
+public class AccountController {
+  private AccountRepository accountRepository;
+  public ResponseEntity<Account> getAccount(@PathVariable Long id) {
+    return ResponseEntity.ok(accountRepository.findById(id).orElseThrow());
+  }
+}
+public class Loan {
+  private Long id;
+  private Long accountId;
+  private Double loanAmount;
+}
+public class LoanController {
+  private LoanRepository loanRepository;
+  public List<Loan> getLoansByAccount(@PathVariable Long accountId) {
+    return loanRepository.findByAccountId(accountId);
+  }
+}
+public interface LoanRepository extends JpaRepository<Loan, Long> {
+  List<Loan> findByAccountId(Long accountId);
+}
+public interface LoanClient {
+  List<Loan> getLoansByAccount(@PathVariable Long accountId);
+}
+
+OUTPUT:
+
+    "id": 101,
+    "accountId": 1,
+    "loanAmount": 50000.0
+ 
+    "id": 102,
+    "accountId": 1,
+    "loanAmount": 20000.0
+ 
