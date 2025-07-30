@@ -1,0 +1,111 @@
+import React from 'react';
+import './App.css';
+
+function App() {
+  const heading = <h1>Office Space Rental Portal</h1>;
+
+  const office = {
+    name: "Skyline Office Suite",
+    rent: 55000,
+    address: "5th Floor, Tech Park, Bengaluru",
+    image: "https://via.placeholder.com/300x200.png?text=Office+Space"
+  };
+
+  const officeList = [
+    {
+      name: "Tech Tower",
+      rent: 45000,
+      address: "HSR Layout, Bangalore",
+      image: "https://via.placeholder.com/300x200.png?text=Tech+Tower"
+    },
+    {
+      name: "Elite Business Center",
+      rent: 75000,
+      address: "BKC, Mumbai",
+      image: "https://via.placeholder.com/300x200.png?text=Elite+Business+Center"
+    },
+    {
+      name: "Cloud Workspace",
+      rent: 62000,
+      address: "Sector 62, Noida",
+      image: "https://via.placeholder.com/300x200.png?text=Cloud+Workspace"
+    }
+  ];
+
+  return (
+    <div className="App">
+      {heading}
+
+      <h2>Featured Office</h2>
+      <div className="office-card">
+        <img src={office.image} alt="Office" />
+        <h3>{office.name}</h3>
+        <p>Address: {office.address}</p>
+        <p style={{ color: office.rent > 60000 ? 'green' : 'red' }}>
+          Rent: ₹{office.rent}
+        </p>
+      </div>
+
+      <h2>Available Office Spaces</h2>
+      <div className="office-list">
+        {officeList.map((item, index) => (
+          <div className="office-card" key={index}>
+            <img src={item.image} alt={item.name} />
+            <h3>{item.name}</h3>
+            <p>Address: {item.address}</p>
+            <p style={{ color: item.rent > 60000 ? 'green' : 'red' }}>
+              Rent: ₹{item.rent}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+export default App;
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.office-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.office-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+  padding: 10px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+}
+.office-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+OUTPUT:
+
+Office Space Rental Portal
+
+Skyline Office Suite  
+Address: 5th Floor, Tech Park, Bengaluru  
+Rent: ₹55000 → [Displayed in **Red**]
+
+Tech Tower  
+Address: HSR Layout, Bangalore  
+Rent: ₹45000 → [Red]
+
+Elite Business Center  
+Address: BKC, Mumbai  
+Rent: ₹75000 → [Green]
+
+Cloud Workspace  
+Address: Sector 62, Noida  
+Rent: ₹62000 → [Green]

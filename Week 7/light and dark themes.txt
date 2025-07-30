@@ -1,0 +1,149 @@
+import React, { createContext } from 'react';
+
+export const ThemeContext = createContext();
+
+import React, { useState } from 'react';
+import { ThemeContext } from './ThemeContext';
+import EmployeeList from './EmployeeList';
+
+function App() {
+  const [theme, setTheme] = useState('light'); // light or dark
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    <ThemeContext.Provider value={theme}>
+      <div className={`app-container ${theme}`}>
+        <h1>Employee Management</h1>
+        <button onClick={toggleTheme}>
+          Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+        </button>
+        <EmployeeList />
+      </div>
+    </ThemeContext.Provider>
+  );
+}
+export default App;
+
+import React from 'react';
+import EmployeeCard from './EmployeeCard';
+
+const employees = [
+  { id: 1, name: 'Alice', role: 'Developer' },
+  { id: 2, name: 'Bob', role: 'Designer' },
+  { id: 3, name: 'Charlie', role: 'Manager' },
+];
+
+function EmployeeList() {
+  return (
+    <div>
+      <h2>Employee List</h2>
+      {employees.map((emp) => (
+        <EmployeeCard key={emp.id} employee={emp} />
+      ))}
+    </div>
+  );
+}
+export default EmployeeList;
+
+import React, { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function EmployeeCard({ employee }) {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <div className={`card ${theme}`}>
+      <h3>{employee.name}</h3>
+      <p>{employee.role}</p>
+      <button className={`btn ${theme}`}>View Profile</button>
+    </div>
+  );
+}
+export default EmployeeCard;
+
+.app-container.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.app-container.dark {
+  background-color: #1c1c1c;
+  color: #f1f1f1;
+}
+
+.card {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.card.light {
+  background-color: #f9f9f9;
+}
+
+.card.dark {
+  background-color: #333333;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn.light {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn.dark {
+  background-color: #555;
+  color: #fff;
+}
+
+OUTPUT:
+
+Employee Management            [Switch to Dark Mode]
+
+Employee List
+
+[Card 1]
+Name: Alice
+Role: Developer
+[View Profile Button - Blue background]
+
+[Card 2]
+Name: Bob
+Role: Designer
+[View Profile Button - Blue background]
+
+[Card 3]
+Name: Charlie
+Role: Manager
+[View Profile Button - Blue background]
+
+Employee Management            [Switch to Light Mode]
+
+Employee List
+
+[Card 1]
+Name: Alice
+Role: Developer
+[View Profile Button - Dark gray background]
+
+[Card 2]
+Name: Bob
+Role: Designer
+[View Profile Button - Dark gray background]
+
+[Card 3]
+Name: Charlie
+Role: Manager
+[View Profile Button - Dark gray background]
+

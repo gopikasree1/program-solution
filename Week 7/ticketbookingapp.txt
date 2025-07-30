@@ -1,0 +1,126 @@
+import React, { createContext, useState } from 'react';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = () => setIsLoggedIn(true);
+  const logout = () => setIsLoggedIn(false);
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+import React from 'react';
+
+const flights = [
+  { id: 1, from: 'New York', to: 'London', time: '10:00 AM' },
+  { id: 2, from: 'Tokyo', to: 'Paris', time: '12:00 PM' },
+  { id: 3, from: 'Delhi', to: 'Dubai', time: '3:00 PM' },
+];
+
+function FlightList() {
+  return (
+    <div>
+      <h2>Available Flights</h2>
+      <ul>
+        {flights.map((flight) => (
+          <li key={flight.id}>
+            ✈️ {flight.from} → {flight.to} at {flight.time}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+export default FlightList;
+import React from 'react';
+import FlightList from './FlightList';
+
+function GuestPage() {
+  return (
+    <div>
+      <h1>Welcome, Guest!</h1>
+      <p>Please log in to book a flight.</p>
+      <FlightList />
+    </div>
+  );
+}
+export default GuestPage;
+import React from 'react';
+import FlightList from './FlightList';
+
+function UserPage() {
+  const handleBook = () => {
+    alert('✅ Ticket booked successfully!');
+  };
+
+  return (
+    <div>
+      <h1>Welcome, User!</h1>
+      <FlightList />
+      <button onClick={handleBook}>Book Ticket</button>
+    </div>
+  );
+}
+export default UserPage;
+
+import React, { useContext } from 'react';
+import { AuthProvider, AuthContext } from './AuthContext';
+import GuestPage from './GuestPage';
+import UserPage from './UserPage';
+import './App.css';
+
+function AppContent() {
+  const { isLoggedIn, login, logout } = useContext(AuthContext);
+
+  return (
+    <div className="App">
+      <header>
+        <h1>✈️ Ticket Booking App</h1>
+        {!isLoggedIn ? (
+          <button onClick={login}>Login</button>
+        ) : (
+          <button onClick={logout}>Logout</button>
+        )}
+      </header>
+
+      <main>{isLoggedIn ? <UserPage /> : <GuestPage />}</main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+export default App;
+
+OUTPUT:
+
+✈️ Ticket Booking App            [Login]
+
+Welcome, Guest!
+Please log in to book a flight.
+
+Available Flights:
+✈️ New York → London at 10:00 AM
+✈️ Tokyo → Paris at 12:00 PM
+✈️ Delhi → Dubai at 3:00 PM
+
+✈️ Ticket Booking App            [Logout]
+
+Welcome, User!
+
+Available Flights:
+✈️ New York → London at 10:00 AM
+✈️ Tokyo → Paris at 12:00 PM
+✈️ Delhi → Dubai at 3:00 PM
+
+[Book Ticket]

@@ -1,0 +1,131 @@
+import React, { useState } from 'react';
+import './App.css';
+
+function App() {
+  const [textValue, setTextValue] = useState('');
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [selectValue, setSelectValue] = useState('option1');
+  const [submittedData, setSubmittedData] = useState(null);
+
+  const handleInputChange = (e) => {
+    setTextValue(e.target.value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    setCheckboxChecked(e.target.checked);
+  };
+
+  const handleSelectChange = (e) => {
+    setSelectValue(e.target.value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setSubmittedData({
+      textValue,
+      checkboxChecked,
+      selectValue,
+    });
+  };
+
+  const handleReset = () => {
+    setTextValue('');
+    setCheckboxChecked(false);
+    setSelectValue('option1');
+    setSubmittedData(null);
+  };
+
+  return (
+    <div className="App">
+      <h1>Event Examples in React</h1>
+      <form onSubmit={handleFormSubmit}>
+        <div>
+          <label>
+            Text Input:
+            <input
+              type="text"
+              value={textValue}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Checkbox:
+            <input
+              type="checkbox"
+              checked={checkboxChecked}
+              onChange={handleCheckboxChange}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Select:
+            <select value={selectValue} onChange={handleSelectChange}>
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <button type="submit">Submit</button>
+          <button type="button" onClick={handleReset}>Reset</button>
+        </div>
+      </form>
+
+      {submittedData && (
+        <div className="result">
+          <h2>Form Submission Data:</h2>
+          <p><strong>Text Input:</strong> {submittedData.textValue}</p>
+          <p><strong>Checkbox:</strong> {submittedData.checkboxChecked ? 'Checked' : 'Unchecked'}</p>
+          <p><strong>Select Option:</strong> {submittedData.selectValue}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+export default App;
+
+.App {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.App h1 {
+  color: #333;
+}
+
+form > div {
+  margin-bottom: 1rem;
+}
+
+.result {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-left: 4px solid #4caf50;
+  border-radius: 4px;
+}
+
+OUTPUT:
+
+Form Submission Data:
+Text Input: Hello React
+Checkbox: Checked
+Select Option: option2
+
+Form Submission Data:
+Text Input: Hello React
+Checkbox: Unchecked
+Select Option: option2
+

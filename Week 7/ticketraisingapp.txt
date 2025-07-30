@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import './ComplaintRegister.css'; // Optional styling
+
+function ComplaintRegister() {
+  const [employeeName, setEmployeeName] = useState('');
+  const [complaint, setComplaint] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!employeeName.trim() || !complaint.trim()) {
+      alert("Please fill in both fields before submitting.");
+      return;
+    }
+
+    const referenceNumber = 'REF' + Math.floor(100000 + Math.random() * 900000);
+    alert(
+      `Complaint submitted successfully!\n\nReference Number: ${referenceNumber}`
+    );
+
+    // Clear form
+    setEmployeeName('');
+    setComplaint('');
+  };
+
+  return (
+    <div className="complaint-container">
+      <h2>Raise a Complaint</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Employee Name:</label><br />
+          <input
+            type="text"
+            value={employeeName}
+            onChange={(e) => setEmployeeName(e.target.value)}
+            placeholder="Enter your name"
+          />
+        </div>
+
+        <div>
+          <label>Complaint:</label><br />
+          <textarea
+            value={complaint}
+            onChange={(e) => setComplaint(e.target.value)}
+            placeholder="Describe your complaint"
+          ></textarea>
+        </div>
+
+        <button type="submit">Submit Complaint</button>
+      </form>
+    </div>
+  );
+}
+export default ComplaintRegister;
+
+export default App;
+import React from 'react';
+import ComplaintRegister from './ComplaintRegister';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Ticket Raising App</h1>
+      <ComplaintRegister />
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+Ticket Raising App
+
+Raise a Complaint
+[Employee Name textbox]
+[Complaint textarea]
+[Submit Complaint button]
+
+Complaint submitted successfully!
+
+Reference Number: REF532194
+
+Please fill in both fields before submitting.
+
+

@@ -1,0 +1,107 @@
+import React from 'react';
+
+function TeamList() {
+  const teams = ['India', 'Australia', 'England', 'South Africa'];
+
+  return (
+    <div>
+      <h2>Teams</h2>
+      <ul>
+        {teams.map((team, index) => (
+          <li key={index}>{team}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+export default TeamList;
+
+import React from 'react';
+
+function PlayerList() {
+  const players = ['Virat Kohli', 'Rohit Sharma', 'Jasprit Bumrah'];
+
+  return (
+    <div>
+      <h2>Players</h2>
+      <ul>
+        {players.map((player, index) => (
+          <li key={index}>{player}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+export default PlayerList;
+
+import React from 'react';
+
+function ScoreBoard() {
+  const runs = 250;
+  const wickets = 4;
+  const overs = 38.2;
+
+  return (
+    <div>
+      <h2>ScoreBoard</h2>
+      <p>Runs: {runs}</p>
+      <p>Wickets: {wickets}</p>
+      <p>Overs: {overs}</p>
+    </div>
+  );
+}
+export default ScoreBoard;
+
+import React from 'react';
+
+function MatchSummary() {
+  return (
+    <div>
+      <h2>Match Summary</h2>
+      <p>India won by 45 runs</p>
+    </div>
+  );
+}
+export default MatchSummary;
+
+import React from 'react';
+import TeamList from './TeamList';
+import PlayerList from './PlayerList';
+import ScoreBoard from './ScoreBoard';
+import MatchSummary from './MatchSummary';
+
+function App() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>🏏 Cricket App</h1>
+      <TeamList />
+      <PlayerList />
+      <ScoreBoard />
+      <MatchSummary />
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+🏏 Cricket App
+
+Teams:
+- India
+- Australia
+- England
+- South Africa
+
+Players:
+- Virat Kohli
+- Rohit Sharma
+- Jasprit Bumrah
+
+ScoreBoard:
+Runs: 250
+Wickets: 4
+Overs: 38.2
+
+Match Summary:
+India won by 45 runs

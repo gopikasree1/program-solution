@@ -1,0 +1,124 @@
+import React from 'react';
+
+function BookDetails() {
+  return (
+    <div>
+      <h2>📘 Book Details</h2>
+      <p>Title: React Mastery</p>
+      <p>Author: Jane Doe</p>
+      <p>Price: $29.99</p>
+    </div>
+  );
+}
+export default BookDetails;
+
+import React from 'react';
+
+function BlogDetails() {
+  return (
+    <div>
+      <h2>📝 Blog Details</h2>
+      <p>Title: Understanding React Conditional Rendering</p>
+      <p>Author: John Smith</p>
+      <p>Date: July 2025</p>
+    </div>
+  );
+}
+export default BlogDetails;
+
+import React from 'react';
+
+function CourseDetails() {
+  return (
+    <div>
+      <h2>🎓 Course Details</h2>
+      <p>Course Name: Advanced React</p>
+      <p>Instructor: Emily Johnson</p>
+      <p>Duration: 6 weeks</p>
+    </div>
+  );
+}
+export default CourseDetails;
+
+import React, { useState } from 'react';
+import './App.css';
+import BookDetails from './BookDetails';
+import BlogDetails from './BlogDetails';
+import CourseDetails from './CourseDetails';
+
+function App() {
+  const [selected, setSelected] = useState('book');
+  const [showCourse, setShowCourse] = useState(true); // for short-circuit example
+
+  // Way 1: Using if/else
+  const renderContentIfElse = () => {
+    if (selected === 'book') {
+      return <BookDetails />;
+    } else if (selected === 'blog') {
+      return <BlogDetails />;
+    } else {
+      return <CourseDetails />;
+    }
+  };
+
+  // Way 2: Using element variable
+  let content;
+  if (selected === 'book') {
+    content = <BookDetails />;
+  } else if (selected === 'blog') {
+    content = <BlogDetails />;
+  } else {
+    content = <CourseDetails />;
+  }
+
+  return (
+    <div className="App">
+      <h1>📚 Blogger App - Conditional Rendering</h1>
+
+      <div className="buttons">
+        <button onClick={() => setSelected('book')}>Show Book</button>
+        <button onClick={() => setSelected('blog')}>Show Blog</button>
+        <button onClick={() => setSelected('course')}>Show Course</button>
+        <button onClick={() => setShowCourse(!showCourse)}>Toggle Course</button>
+      </div>
+
+      <hr />
+
+      <h3>1. Using if/else Statement</h3>
+      {renderContentIfElse()}
+
+      <h3>2. Using Element Variable</h3>
+      {content}
+
+      <h3>3. Using Ternary Operator</h3>
+      {selected === 'book' ? <BookDetails /> : selected === 'blog' ? <BlogDetails /> : <CourseDetails />}
+
+      <h3>4. Using Short-Circuit && (only shows Course if toggle is true)</h3>
+      {showCourse && <CourseDetails />}
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+ Blogger App - Conditional Rendering
+
+[Show Book] [Show Blog] [Show Course] [Toggle Course]
+
+📘 Book Details
+Title: React Mastery  
+Author: Jane Doe  
+Price: $29.99 
+
+🎓 Course Details
+Course Name: Advanced React  
+Instructor: Emily Johnson  
+Duration: 6 weeks  
+
+📝 Blog Details
+Title: Understanding React Conditional Rendering  
+Author: John Smith  
+Date: July 2025
+ 
+

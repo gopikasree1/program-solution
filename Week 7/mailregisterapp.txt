@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import './Register.css';
+
+function Register() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'name':
+        return value.length >= 5 ? '' : 'Name must be at least 5 characters.';
+      case 'email':
+        return value.includes('@') && value.includes('.') ? '' : 'Invalid email address.';
+      case 'password':
+        return value.length >= 8 ? '' : 'Password must be at least 8 characters.';
+      default:
+        return '';
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Update form data
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Live validate on change
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value),
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = {
+      name: validateField('name', formData.name),
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+    };
+
+    setErrors(newErrors);
+
+    const isValid = Object.values(newErrors).every((error) => error === '');
+
+    if (isValid) {
+      alert('Registration Successful!');
+      setFormData({ name: '', email: '', password: '' });
+    } else {
+      alert('Please correct the errors in the form.');
+    }
+  };
+
+  return (
+    <div className="register-container">
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit} noValidate>
+        <div>
+          <label>Name:</label>
+          <input
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+          />
+          {errors.name && <span className="error">{errors.name}</span>}
+        </div>
+
+        <div>
+          <label>Email:</label>
+          <input
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+          />
+          {errors.email && <span className="error">{errors.email}</span>}
+        </div>
+
+        <div>
+          <label>Password:</label>
+          <input
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+          />
+          {errors.password && <span className="error">{errors.password}</span>}
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
+}
+export default Register;
+
+import React from 'react';
+import Register from './Register';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Mail Register App</h1>
+      <Register />
+    </div>
+  );
+}
+export default App;
+
+OUTPUT:
+
+Mail Register App
+-----------------
+
+Register
+
+Name:       [                ]
+Email:      [                ]
+Password:   [                ]
+[Register Button]
+
+Name must be at least 5 characters.
+Invalid email address.
+Password must be at least 8 characters.
